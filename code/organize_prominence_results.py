@@ -281,8 +281,11 @@ def main():
     # Relocate peaks to local bathymetry maxima (also filters NoData/NaN within relocation window)
     gdf = relocate_peaks(gdf, args.bathymetry_file, args.window_size)
 
+    # Rename elevation to depth
+    gdf = gdf.rename(columns={"elevation": "depth"})
+
     # Save final relocated peaks
-    output_path = output_dir / 'bathymetry_features_peaks.gpkg'
+    output_path = output_dir / 'bathymetry_peaks.gpkg'
     print(f"\nSaving relocated peaks to {output_path}")
     gdf_rounded = round_gdf_precision(gdf.copy())
     gdf_rounded.to_file(output_path, driver="GPKG")

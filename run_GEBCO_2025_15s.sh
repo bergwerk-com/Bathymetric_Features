@@ -60,7 +60,7 @@ echo "Cleaning up mountains calculation files and folders"
 # Execute the base contours extraction for each topographic feature and save to geopackage
 echo "Contours base exctraction"
 python code/find_ctrs.py --dem_file="$input_nc" \
-                      --gpkg_file="$folder_results/bathymetry_features_peaks.gpkg" \
+                      --gpkg_file="$folder_results/bathymetry_peaks.gpkg" \
                       --window_size_min=1 \
                       --window_size_max=25 \
                       --enable_dateline_stitching \
@@ -68,8 +68,8 @@ python code/find_ctrs.py --dem_file="$input_nc" \
                       --num_workers=18 
 
 # Peak hierarchy and cluster visualization 
-python code/ctrs_cluster.py --input_gpkg="$folder_results/contours.gpkg" \
-                       --output_gpkg="$folder_results/bathymetry_features_contours.gpkg" \
+python code/cluster_ctrs.py --input_gpkg="$folder_results/contours.gpkg" \
+                       --output_gpkg="$folder_results/bathymetry_features.gpkg" \
                        --tile_buffer_degrees=45
 
 # Final clean up of temporary files

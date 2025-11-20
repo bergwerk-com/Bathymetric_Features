@@ -549,14 +549,14 @@ def haversine_distance(lon1, lat1, lon2, lat2):
     return R * c
 
 
-def _process_single_contour(cont_gen, target_elevation, percentage, lon_grid, lat_grid, dem_data,
+def _process_single_contour(cont_gen, target_depth, percentage, lon_grid, lat_grid, dem_data,
                            target_lon, lat, lon):
     """
     Helper function to process a single contour level.
     Returns a result dict if successful, None otherwise.
     """
     try:
-        lines = cont_gen.lines(target_elevation)
+        lines = cont_gen.lines(target_depth)
 
         if len(lines) == 0:
             return None
@@ -611,7 +611,7 @@ def _process_single_contour(cont_gen, target_elevation, percentage, lon_grid, la
 
                 return {
                     'polygon': polygon,
-                    'elevation': target_elevation,
+                    'depth': target_depth,
                     'prominence_percentage': percentage,
                     'area_sq_m': area_sq_m,
                     'circularity_percent': circularity,
@@ -631,7 +631,7 @@ def _process_single_contour(cont_gen, target_elevation, percentage, lon_grid, la
     return None
 
 
-def extract_multiple_contours(lon_grid, lat_grid, dem_data, peak_elevation, prominence, lon, lat, contour_percentages):
+def extract_multiple_contours(lon_grid, lat_grid, dem_data, peak_depth, prominence, lon, lat, contour_percentages):
     """
     Extract contours at multiple levels using contourpy
     Process from top (25%) to base (100%) for efficiency
@@ -667,9 +667,9 @@ def extract_multiple_contours(lon_grid, lat_grid, dem_data, peak_elevation, prom
     dem_max = np.nanmax(dem_data)
 
     for percentage in sorted_percentages:
-        target_elevation = peak_elevation - (percentage / 100.0 * prominence)
-        if dem_min <= target_elevation <= dem_max:
-            valid_targets.append((target_elevation, percentage))
+        target_depth = peak_depth - (percentage / 100.0 * prominence)
+        if dem_min <= target_depth <= dem_max:
+            valid_targets.append((target_depth, percentage))
 
     if len(valid_targets) == 0:
         return results
@@ -682,9 +682,9 @@ def extract_multiple_contours(lon_grid, lat_grid, dem_data, peak_elevation, prom
         cont_gen = contourpy.contour_generator(lon_grid, lat_grid, dem_data_filled)
 
         # Process each target elevation in ascending order (top to base)
-        for target_elevation, percentage in valid_targets:
+        for target_depth, percentage in valid_targets:
             result = _process_single_contour(
-                cont_gen, target_elevation, percentage,
+                cont_gen, target_depth, percentage,
                 lon_grid, lat_grid, dem_data,
                 target_lon, lat, lon
             )
@@ -719,7 +719,7 @@ class MemoryLimitExceeded(Exception):
 
 def crop_and_process_peak(peak_data):
     """Worker function to process a single peak with adaptive window sizing"""
-    idx, lon, lat, elevation, prominence, file_dem, window_size_min, window_size_max, contour_percentages, enable_stitching, output_dir = peak_data
+    idx, lon, lat, depth, prominence, file_dem, window_size_min, window_size_max, contour_percentages, enable_stitching, output_dir = peak_data
 
     try:
         # Check memory before processing - HARD STOP if at limit
@@ -778,7 +778,7 @@ def crop_and_process_peak(peak_data):
                 # Only extract missing contours (not all contours)
                 if missing_percentages:
                     new_contours = extract_multiple_contours(
-                        lon_grid, lat_grid, dem_data, elevation, prominence, lon, lat, missing_percentages
+                        lon_grid, lat_grid, dem_data, depth, prominence, lon, lat, missing_percentages
                     )
 
                     # Add newly found contours to results and record the window size and area
@@ -861,7 +861,7 @@ def crop_and_process_peak(peak_data):
             formatted_results.append({
                 'peak_id': idx,
                 'polygon': result['polygon'],
-                'elevation': result['elevation'],
+                'depth': result['depth'],
                 'prominence_percentage': result['prominence_percentage'],
                 'area_sq_km': result['area_sq_m']/1e6, # conversion 1e6 m2 == 1 km2
                 'circularity_percent': result['circularity_percent'],
@@ -1033,7 +1033,7 @@ def main():
                 peak_id = start_idx + i + 1
             peak_data_list.append((
                 peak_id, row['longitude'], row['latitude'],
-                row['elevation'], row['prominence'],
+                row['depth'], row['prominence'],
                 file_dem, window_size_min, window_size_max, contour_percentages,
                 enable_dateline_stitching, output_dir
             ))
@@ -1105,9 +1105,9 @@ def main():
                     'nested_on_feature_id': '',  # Empty - will be populated by find_ctrs_cluster.py
                     'peak_longitude': peak_row['longitude'],
                     'peak_latitude': peak_row['latitude'],
-                    'peak_elevation': peak_row['elevation'],
+                    'peak_depth': peak_row['depth'],
                     'peak_prominence': peak_row['prominence'],
-                    'contour_elevation': result['elevation'],
+                    'contour_depth': result['depth'],
                     'prominence_percentage': result['prominence_percentage'],
                     'area_sq_km': result['area_sq_km'],
                     'circularity_percent': result['circularity_percent'],
@@ -1137,7 +1137,7 @@ def main():
             # Longitude/latitude coordinates: 5 decimal places (~1.1m precision)
             # Other float values: 2 decimal places
             lon_lat_cols = ['peak_longitude', 'peak_latitude', 'centroid_lon', 'centroid_lat']
-            float_cols_2decimals = ['peak_elevation', 'peak_prominence', 'contour_elevation',
+            float_cols_2decimals = ['peak_depth', 'peak_prominence', 'contour_depth',
                                    'area_sq_km', 'circularity_percent', 'bbox_orientation_deg',
                                    'bbox_length_m', 'bbox_width_m', 'mean_slope_deg',
                                    'min_slope_deg', 'max_slope_deg', 'window_size_used']
