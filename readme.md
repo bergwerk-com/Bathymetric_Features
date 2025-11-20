@@ -53,7 +53,7 @@ cd ../../../../  # Return to repository root
 
 ### 1. Clone the Repository with Submodules
 
-To clone this repository along with the Mountains prominence calculation tool, use:
+This pipeline uses the Mountains prominence calculation tool by Adam Kirmse for detecting topographic peaks and calculating their prominence. To clone this repository along with the Mountains prominence calculation tool, use:
 
 ```bash
 # Clone the repository and initialize the mountains submodule in one command
@@ -92,18 +92,9 @@ The `environment.yml` file includes:
   - `netcdf4` - NetCDF backend for xarray
   - `tqdm` - Progress bars
 
-**Additional requirement:**
-- Mountains prominence calculation binary (see [Compile Mountains Binary](#3-compile-mountains-binary) below)
-
-### System Requirements
-- 64GB+ RAM recommended for large datasets
-- Multi-core CPU (8+ cores recommended)
-- Sufficient disk space for intermediate files (~3x input data size)
-- CMake 3.10+ and C++ compiler (for building Mountains binary)
-
 ### 3. Compile Mountains Binary
 
-After cloning with submodules, compile the Mountains prominence calculation tool:
+After cloning the repository as a submodule, compile the Mountains prominence calculation tool:
 
 ```bash
 cd code/mountains/code
@@ -124,16 +115,8 @@ The compiled binary will be available at `code/mountains/code/release/`, which i
 # Or from the repository root
 code/mountains/code/release/divide_tree --help
 ```
-
 You should see the help message for the Mountains prominence calculation tool.
 
-**About the Mountains Tool:**
-
-This pipeline uses the [Mountains](https://github.com/akirmse/mountains) prominence calculation tool by Adam Kirmse for detecting topographic peaks and calculating their prominence.
-
-- **Repository**: https://github.com/akirmse/mountains
-- **Documentation**: See the Mountains repository README
-- **Citation**: Kirmse, A. (2017). "Calculating the prominence and isolation of every mountain in the world"
 
 **Alternative: Use Existing Installation**
 
@@ -161,14 +144,6 @@ gdal_calc.py -A output_full.flt \
 
 # Build pyramids for visualization
 gdaladdo output_bathy.flt 2 4 8 16 32
-```
-
-For projected data (e.g., EPSG:25833), reproject to WGS84 (EPSG:4326):
-
-```bash
-gdalwarp -s_srs EPSG:25833 -t_srs EPSG:4326 \
-    -tr 0.001411784399965 0.000470594799988 \
-    -r bilinear input.tif output_wgs84.tif
 ```
 
 ### Step 2: Peak Detection & Prominence Calculation
@@ -245,9 +220,9 @@ The `--window_size_max` parameter is **critical for runtime performance**. The v
 Detect feature nesting relationships and prepare for visualization:
 
 ```bash
-python code/ctrs_cluster.py \
+python code/cluster_ctrs.py \
     --input_gpkg data/output/OUTPUT_FOLDER/contours.gpkg \
-    --output_gpkg data/output/OUTPUT_FOLDER/bathymetry_features_contours.gpkg \
+    --output_gpkg data/output/OUTPUT_FOLDER/bathymetry_features.gpkg \
     --tile_buffer_degrees 45
 ```
 
@@ -282,103 +257,47 @@ Two complete workflow scripts are provided in the repository root. These scripts
 - Samples per tile: 240 points/degree
 - Output: `data/output/GEBCO2025_15s_1deg240pts/`
 
-**Note:** Before running these scripts, ensure you have:
-1. Activated the conda environment: `conda activate BathyFeaturesCtrs`
-2. Compiled the Mountains binary (see [Installation](#installation))
-3. Placed your input bathymetry data in the appropriate location (modify paths in scripts as needed)
 
 ## Output Files
 
 Each workflow produces the following outputs in the specified folder:
 
 ### Final Outputs
-- `bathymetry_features_peaks.gpkg` - Peak locations with prominence values
-- `bathymetry_features_contours.gpkg` - Multi-level contours with nesting relationships
+- `bathymetry_peaks.gpkg` - Peak locations with prominence values
+- `bathymetry_contours.gpkg` - Multi-level contours with nesting relationships
 
 
 ### Output Attributes
 
 **Peaks GeoPackage:**
 - `peak_id` - Unique feature identifier
-- `longitude`, `latitude` - Peak location (WGS84, after relocation, 5 decimal precision)
-- `elevation` - Peak elevation (m, negative for bathymetry, 2 decimal precision)
-- `prominence` - Topographic prominence (m, 2 decimal precision)
-- `key_saddle_latitude`, `key_saddle_longitude` - Key saddle location (5 decimal precision)
-- `original_lon`, `original_lat` - Position before relocation (5 decimal precision)
-- `original_elevation` - Elevation before relocation (2 decimal precision)
+- `longitude`, `latitude` - Peak location (WGS84, after relocation)
+- `Depth` - Peak depth (m, negative for bathymetry)
+- `prominence` - Topographic prominence (m)
+- `key_saddle_latitude`, `key_saddle_longitude` - Key saddle location
+- `original_lon`, `original_lat` - Position before relocation
+- `original_depth` - Depth before relocation
 - `error_with_contours` - Boolean flag for contour extraction errors
 - `error_no_contours` - Boolean flag for missing contours
 
 **Contours GeoPackage:**
 - `feature_id` - Links to parent peak
-- `peak_longitude`, `peak_latitude` - Associated peak location (5 decimal precision)
-- `peak_elevation` - Peak elevation (m, 2 decimal precision)
-- `peak_prominence` - Peak prominence (m, 2 decimal precision)
+- `peak_longitude`, `peak_latitude` - Associated peak location
+- `peak_depth` - Peak elevation (m)
+- `peak_prominence` - Peak prominence (m)
 - `contour_name` - Display label (e.g., "feature id 123, ctr 75%")
 - `prominence_percentage` - Contour level (100%, 90%, 75%, 50%, 25%)
-- `contour_elevation` - Contour elevation (m, 2 decimal precision)
+- `contour_depth` - Contour depth (m)
 - `nested_on_feature_id` - Comma-separated IDs of parent features (if nested)
-- `area_sq_km` - Contour area (km², 2 decimal precision)
-- `circularity_percent` - Shape circularity (0-100%, 2 decimal precision)
-- `bbox_orientation_deg` - Minimum rotated rectangle orientation (0-180°, 2 decimal precision)
-- `bbox_length_m` - Length of minimum rotated rectangle (m, 2 decimal precision)
-- `bbox_width_m` - Width of minimum rotated rectangle (m, 2 decimal precision)
-- `mean_slope_deg`, `min_slope_deg`, `max_slope_deg` - Slope statistics (2 decimal precision)
-- `centroid_lon`, `centroid_lat` - Contour centroid (5 decimal precision)
-- `window_size_used` - Search window size where contour was found (degrees, 2 decimal precision)
-- `geometry` - Polygon geometry with vertices at 5 decimal precision
-
-## Visualization in QGIS
-
-1. Open the final `bathymetry_features_contours.gpkg` in QGIS
-2. Contours are pre-sorted for proper rendering (largest at bottom, smallest on top)
-3. Style by `prominence_percentage` to visualize feature hierarchy
-4. Use `nested_on_feature_id` to identify feature relationships
-5. Filter by `area_sq_km` or `circularity_percent` for feature classification
-
-## Performance Optimization
-
-### Memory Management
-- Adjust `--batch_size` based on available RAM (larger = faster but more memory)
-- The pipeline processes features in batches to limit memory usage
-- Intermediate files are deleted after each step
-
-### Parallel Processing
-- Set `--num_workers` to match available CPU cores
-- GDAL cache and thread settings are pre-configured in scripts
-- For very large datasets (>100M points), consider spatial subsetting
-
-### Adaptive Window Sizing
-- Contour extraction uses adaptive windows (min → max)
-- Only increases window size when contours are not found
-- Tracks window size per contour level for diagnostics
-
-## Troubleshooting
-
-### Peak Extraction Errors
-- Some peaks may fail contour extraction due to invalid nesting (e.g., 25% contour larger than 100%)
-- These are flagged in `bathymetry_features_peaks.gpkg` with error attributes
-- Common causes: Data pixel artifacts
-
-### Memory Issues
-- Reduce `--batch_size` parameter
-- Reduce `--num_workers` to lower parallel memory usage
-- Process data in geographic subsets
-
-### Missing Contours
-- Increase `--window_size_max` for large features
-- Check that prominence values are sufficient (>300m recommended)
-- Verify input data has sufficient resolution
-
-## File Cleanup
-
-Temporary files are automatically removed:
-- `prominence/` - Raw prominence calculation outputs
-- `tiles/` - Intermediate prominence tiling data
-
-
-## Recent Changes
-
+- `area_sq_km` - Contour area (km²)
+- `circularity_percent` - Shape circularity (0-100%)
+- `bbox_orientation_deg` - Minimum rotated rectangle orientation (0-180°)
+- `bbox_length_m` - Length of minimum rotated rectangle (m)
+- `bbox_width_m` - Width of minimum rotated rectangle (m)
+- `mean_slope_deg`, `min_slope_deg`, `max_slope_deg` - Slope statistics 
+- `centroid_lon`, `centroid_lat` - Contour centroid
+- `window_size_used` - Search window size where contour was found (degrees)
+- `geometry` - Polygon geometry with vertices
 
 ## Citation
 
