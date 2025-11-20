@@ -26,8 +26,6 @@ knoll/
 └── run_GEBCO_2025_15s.sh          # GEBCO 2025 workflow
 ```
 
-**Note:** The `code/mountains/` directory is managed as a Git submodule and points to the [Mountains](https://github.com/akirmse/mountains) repository by Adam Kirmse.
-
 ## Quick Start
 
 For users cloning this repository for the first time:
