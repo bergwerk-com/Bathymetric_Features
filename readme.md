@@ -1,14 +1,14 @@
 # Bathymetric Features Delineation and Analysis
 
-This repository contains the code and processing pipeline used to produce the global bathymetric feature dataset published in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and archived on [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](#citation). 
+This repository contains the code and processing pipeline used to produce the global bathymetric feature dataset published in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and archived on [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546). The dataset GeoPackages can be explored in any GIS software or through our web interface [Bathycat](link-to-be-added).
 
-Earth's ocean floor hosts hundreds of thousands of underwater mountains, including seamounts, knolls, and ridges, the majority of which remain poorly mapped. This pipeline produces a comprehensive global catalogue of such features derived from [GEBCO](https://www.gebco.net) global bathymetric grids, which can be explored with any GIS software from the geopackages of the dataset or through our web interface [Bathycat](link-to-be-added).
+<p align="center"><img src="bathycat_image.png" width="50%"></p>
 
-Our analysis builds upon **[Mountains](https://github.com/akirmse/mountains)** (Kirmse & de Ferranti, 2017, see [Citations](#citation)), a prominence calculation engine that identifies bathymetric peaks and determines each feature's topographic prominence by locating its key saddle. The input bathymetry is sourced from **[GEBCO](https://www.gebco.net)** (General Bathymetric Chart of the Oceans), with example workflows provided for both the GEBCO 2014 (30 arc-second) and GEBCO 2025 (15 arc-second) global grids.
+Earth's ocean floor hosts hundreds of thousands of underwater mountains, including seamounts, knolls, and ridges, the majority of which remain poorly mapped. This pipeline produces a comprehensive global catalogue of such features derived from **[GEBCO](https://www.gebco.net)** (General Bathymetric Chart of the Oceans) global bathymetric grids, with example workflows provided for both the GEBCO 2014 (30 arc-second) and GEBCO 2025 (15 arc-second) releases.
 
-Around each identified peak, multi-level contours are extracted at 100%, 90%, 75%, 50%, and 25% of its prominence, outlining the feature's shape across progressively broader scales. For each contour, a set of spatial metrics is computed, including area, circularity, orientation, dimensions, and slope statistics, providing the quantitative basis for systematic and objective characterisation of seafloor features. The pipeline produces GeoPackage outputs ready for visualization and further analysis.
+Our analysis builds upon **[Mountains](https://github.com/akirmse/mountains)** (Kirmse & de Ferranti, 2017, see [Citations](#citation)), a prominence calculation engine that identifies bathymetric peaks and determines each feature's topographic prominence by locating its key saddle. Around each identified peak, multi-level contours are extracted at 100%, 90%, 75%, 50%, and 25% of its prominence, outlining the feature's shape across progressively broader scales. For each contour, a set of spatial metrics is computed, including area, circularity, orientation, dimensions, and slope statistics, providing the quantitative basis for systematic and objective characterisation of seafloor features. The pipeline produces GeoPackage outputs ready for visualization and further analysis.
 
-> **Citation:** If you use this pipeline or its outputs, please cite our publications in *Scientific Data* ([DOI to be added]) and *PANGAEA* ([DOI to be added]) and the underlying tools (Mountains and GEBCO, see [Citations](#citation) below).
+> **Citation:** If you use this pipeline or its outputs, please cite our publications in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546) and the underlying tools (Mountains and GEBCO, see [Citations](#citation) below).
 
 ## Overview
 
@@ -311,9 +311,9 @@ If you use this pipeline, its outputs, or the derived dataset, please cite:
 
 ### This work
 
-- **Data paper (Scientific Data):** Souche, A., et al. (*year*). *Title*. *Scientific Data*. [DOI to be added]
+- [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., et al. (*year*). *Title*. *Scientific Data*. [DOI to be added]
 
-- **Dataset (Pangaea):** Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
+- [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
 
 
 ### Prominence calculation — Mountains
