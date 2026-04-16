@@ -14,8 +14,8 @@ Our analysis builds upon **[Mountains](https://github.com/akirmse/mountains)** (
 
 This pipeline processes bathymetric data to:
 1. Identify bathymetric peaks and calculate their topographic prominence using the [Mountains](https://github.com/akirmse/mountains) tool
-2. Extract multi-level contours around each feature
-3. Generate GeoPackage outputs for visualization in QGIS
+2. Extract multi-level contours around each feature and compute all the spatial metrics
+3. Generate GeoPackage outputs for visualization
 
 ## Repository Structure
 
