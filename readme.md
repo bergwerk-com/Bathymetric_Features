@@ -1,11 +1,19 @@
-# Bathymetric Feature Delineation and Analysis
+# Bathymetric Features Delineation and Analysis
 
-A complete workflow for detecting and analyzing bathymetric features using topographic prominence analysis and multi-level contour extraction.
+This repository contains the code and processing pipeline used to produce the global bathymetric feature dataset published in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and archived on [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](#citation). 
+
+Earth's ocean floor hosts hundreds of thousands of underwater mountains, including seamounts, knolls, and ridges, the majority of which remain poorly mapped. This pipeline produces a comprehensive global catalogue of such features derived from [GEBCO](https://www.gebco.net) global bathymetric grids, which can be explored with any GIS software from the geopackages of the dataset or through our web interface [Bathycat](link-to-be-added).
+
+Our analysis builds upon **[Mountains](https://github.com/akirmse/mountains)** (Kirmse & de Ferranti, 2017, see [Citations](#citation)), a prominence calculation engine that identifies bathymetric peaks and determines each feature's topographic prominence by locating its key saddle. The input bathymetry is sourced from **[GEBCO](https://www.gebco.net)** (General Bathymetric Chart of the Oceans), with example workflows provided for both the GEBCO 2014 (30 arc-second) and GEBCO 2025 (15 arc-second) global grids.
+
+Around each identified peak, multi-level contours are extracted at 100%, 90%, 75%, 50%, and 25% of its prominence, outlining the feature's shape across progressively broader scales. For each contour, a set of spatial metrics is computed, including area, circularity, orientation, dimensions, and slope statistics, providing the quantitative basis for systematic and objective characterisation of seafloor features. The pipeline produces GeoPackage outputs ready for visualization and further analysis.
+
+> **Citation:** If you use this pipeline or its outputs, please cite our publications in *Scientific Data* ([DOI to be added]) and *PANGAEA* ([DOI to be added]) and the underlying tools (Mountains and GEBCO, see [Citations](#citation) below).
 
 ## Overview
 
 This pipeline processes bathymetric data to:
-1. Identify bathymetric peaks and calculate their topographic prominence
+1. Identify bathymetric peaks and calculate their topographic prominence using the [Mountains](https://github.com/akirmse/mountains) tool
 2. Extract multi-level contours around each feature
 3. Generate GeoPackage outputs for visualization in QGIS
 
@@ -299,4 +307,27 @@ Each workflow produces the following outputs in the specified folder:
 
 ## Citation
 
-If using this pipeline for research, please cite XX
+If you use this pipeline, its outputs, or the derived dataset, please cite:
+
+### This work
+
+- **Data paper (Scientific Data):** Souche, A., et al. (*year*). *Title*. *Scientific Data*. [DOI to be added]
+
+- **Dataset (Pangaea):** Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
+
+
+### Prominence calculation — Mountains
+
+> Kirmse, A. & de Ferranti, J. Calculating the prominence and isolation of every mountain in the world. Progress in Physical Geography: Earth and Environment 41(6), 788–802, https://doi.org/10.1177/0309133317738163 (2017).
+
+
+Software repository: https://github.com/akirmse/mountains
+
+### Bathymetric data — GEBCO
+
+The example workflows use the following GEBCO releases.
+
+> Weatherall, P. et al. The GEBCO_2014 Grid, version 20150318, https://www.gebco.net (2015).
+
+> GEBCO Bathymetric Compilation Group 2025: The GEBCO_2025 Grid - a continuous terrain model for oceans and land at 15 arc-second intervals. NERC British Oceanographic Data Centre. https://doi.org/10.5285/37c52e96-24ea-67ce-e063-7086abc05f29 (2025).
+
