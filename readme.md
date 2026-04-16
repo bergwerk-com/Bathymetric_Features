@@ -1,8 +1,8 @@
 # Bathymetric Features Delineation and Analysis
 
-This repository contains the code and processing pipeline used to produce the global bathymetric feature dataset published in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and archived on [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546). The dataset GeoPackages can be explored in any GIS software or through our web interface [Bathycat](link-to-be-added).
+This repository contains the code and processing pipeline used to produce the global bathymetric feature dataset published in [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) and archived on [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546). The dataset GeoPackages can be explored in any GIS software or through our web interface [BathyCat](https://bathycat.bergwerk.com/).
 
-<p align="center"><img src="bathycat_image.png" width="50%"></p>
+<p align="center"><img src="images/bathycat_image.png" width="50%"></p>
 
 Earth's ocean floor hosts hundreds of thousands of underwater mountains, including seamounts, knolls, and ridges, the majority of which remain poorly mapped. This pipeline produces a comprehensive global catalogue of such features derived from **[GEBCO](https://www.gebco.net)** (General Bathymetric Chart of the Oceans) global bathymetric grids, with example workflows provided for both the GEBCO 2014 (30 arc-second) and GEBCO 2025 (15 arc-second) releases.
 
