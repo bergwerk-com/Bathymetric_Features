@@ -309,25 +309,12 @@ Each workflow produces the following outputs in the specified folder:
 
 If you use this pipeline, its outputs, or the derived dataset, please cite:
 
-### This work
-
 - [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis. *Scientific Data*. [DOI to be added] (2026).
 
 - [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
 
 
-### Prominence calculation — Mountains
 
-> Kirmse, A. & de Ferranti, J. Calculating the prominence and isolation of every mountain in the world. Progress in Physical Geography: Earth and Environment 41(6), 788–802, https://doi.org/10.1177/0309133317738163 (2017).
+## Acknowledgements
 
-
-Software repository: https://github.com/akirmse/mountains
-
-### Bathymetric data — GEBCO
-
-The example workflows use the following GEBCO releases.
-
-> Weatherall, P. et al. The GEBCO_2014 Grid, version 20150318, https://www.gebco.net (2015).
-
-> GEBCO Bathymetric Compilation Group 2025: The GEBCO_2025 Grid - a continuous terrain model for oceans and land at 15 arc-second intervals. NERC British Oceanographic Data Centre. https://doi.org/10.5285/37c52e96-24ea-67ce-e063-7086abc05f29 (2025).
-
+This project was supported by Aker BP, who supports ocean data transparency and innovation (https://www.akerbp.com/en/aker-bp-shares-ocean-data-to-boost-transparency-and-innovation-2). We gratefully acknowledge the GEBCO organization for maintaining and freely distributing the global bathymetric compilations (GEBCO Bathymetric Compilation Group 2025, https://doi.org/10.5285/37c52e96-24ea-67ce-e063-7086abc05f29) that form the foundation of this dataset. We thank Adam Kirmse for developing and openly sharing the Mountains prominence calculation software (Kirmse & de Ferranti, 2017, https://doi.org/10.1111/tgis.12265; https://github.com/akirmse/mountains). His implementation of efficient algorithms for prominence calculation on large datasets was essential for making this global analysis feasible.
