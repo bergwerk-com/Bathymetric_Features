@@ -311,7 +311,7 @@ If you use this pipeline, its outputs, or the derived dataset, please cite:
 
 ### This work
 
-- [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., et al. (*year*). *Title*. *Scientific Data*. [DOI to be added]
+- [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis. *Scientific Data*. [DOI to be added] (2026).
 
 - [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
 
