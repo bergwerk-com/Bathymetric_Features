@@ -20,12 +20,12 @@ This pipeline processes bathymetric data to:
 ## Repository Structure
 
 ```
-knoll/
+Bathymetric_Features/
 ├── code/                           # Python processing scripts
 │   ├── mountains/                  # Git submodule (not included in repo)
 │   ├── organize_prominence_results.py
 │   ├── find_ctrs.py
-│   └── ctrs_cluster.py
+│   └── cluster_ctrs.py
 ├── data/                           # Data directory (input/output)
 │   ├── input/                      # Input bathymetry files (user-provided)
 │   └── output/                     # Processing results
@@ -104,9 +104,6 @@ After cloning the repository as a submodule, compile the Mountains prominence ca
 
 ```bash
 cd code/mountains/code
-mkdir -p release
-cd release
-cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j$(nproc)
 ```
 
@@ -309,10 +306,9 @@ Each workflow produces the following outputs in the specified folder:
 
 If you use this pipeline, its outputs, or the derived dataset, please cite:
 
-- [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis. *Scientific Data*. [DOI to be added] (2026).
+- [![Scientific Data](https://img.shields.io/badge/Scientific_Data-Nature-009E82?style=flat-square&logo=springernature&logoColor=white)](#citation) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis. Sci Data 13, 902 (2026). https://doi.org/10.1038/s41597-026-07241-z
 
 - [![PANGAEA](https://img.shields.io/badge/PANGAEA-Data_Publisher-003764?style=flat-square&logo=ocean&logoColor=white)](https://doi.org/10.1594/PANGAEA.992546) Souche, A., Hartz, E. H. & Schmid, D. W. A Global Dataset of Bathymetric Features Identified with Prominence and Isobaths Analysis [dataset]. PANGAEA https://doi.org/10.1594/PANGAEA.992546 (2026).
-
 
 
 ## Acknowledgements
